@@ -1,6 +1,8 @@
 from django.contrib import admin
-
-# Register your models here.
 from .models import Book
 
-admin.site.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'book_code']
+    fields = ['title', 'author', 'book_code', 'edition','cover_image', 'description', 'total_quantity']
+
+admin.site.register(Book, BookAdmin)

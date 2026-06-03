@@ -1,8 +1,6 @@
 from django.db import models
 
 
-
-
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
@@ -16,6 +14,7 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.available_quantity = self.total_quantity
+            
         super(Book ,self).save(*args, **kwargs)
 
 
