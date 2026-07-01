@@ -3,6 +3,7 @@ from .models import Book
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'book_code']
-    fields = ['title', 'author', 'book_code', 'edition','cover_image', 'description', 'total_quantity']
+    readonly_fields = ['available_quantity']
+    search_fields = ['title', 'author', 'book_code']
 
 admin.site.register(Book, BookAdmin)
