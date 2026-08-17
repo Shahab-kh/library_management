@@ -120,7 +120,8 @@ body {
   height: 205px;
 
   object-fit: cover;
-
+  display: block;
+  margin: 0 auto;
   border: 1px solid #777;
   border-radius: 7px;
 }
