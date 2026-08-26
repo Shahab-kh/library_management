@@ -14,10 +14,95 @@
 
     <h5 class="book-title">{{ book.title }}</h5>
 
-    <button class="borrow-button">Borrow</button>
+    <button
+      class="borrow-button"
+      type="button"
+      onclick="openBorrowModal(
+        '{{book.id}}',
+        '{{ book.cover_image.url }}',
+        '{{ book.title|escapejs }}',
+        '{{ book.description|escapejs }}'
+    )"
+    >
+      Borrow
+    </button>
   </div>
 
   {% endfor %}
+
+  <div id="borrow-modal" class="borrow-modal">
+    <div class="borrow-modal-content">
+      <button class="modal-close" type="button" onclick="closeBorrowModal()">
+        &times;
+      </button>
+
+      <div class="borrow-modal-body">
+        <!-- Book Cover -->
+        <div class="modal-book-cover">
+          <img id="modal-book-image" src="" alt="" />
+        </div>
+
+        <!-- Book Information -->
+        <div class="modal-book-info">
+
+    <h2 id="modal-book-title">
+        Book Name
+    </h2>
+
+    <form method="post" class="borrow-form">
+        {% csrf_token %}
+        <input
+          type="hidden"
+          name="book"
+          id="modal-book-id"
+        > 
+        <div class="member-select">
+            {{ borrow_form.member.label_tag }}
+            {{ borrow_form.member }}
+        </div>
+
+        <div class="modal-book-description">
+            <p id="modal-book-description"></p>
+        </div>
+
+        <button
+            type="submit"
+            class="modal-borrow-button"
+        >
+            Borrow
+        </button>
+
+    </form>
+
 </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function openBorrowModal(id, imageUrl, title, description) {
+    document.getElementById("borrow-modal").style.display = "flex";
+
+    document.getElementById("modal-book-id").value = id;
+
+    document.getElementById("modal-book-image").src = imageUrl;
+    document.getElementById("modal-book-image").alt = title;
+
+    document.getElementById("modal-book-title").textContent = title;
+
+    const descriptionBox =
+        document.getElementById("modal-book-description");
+
+    if (description) {
+        descriptionBox.textContent = description;
+    } else {
+        descriptionBox.textContent = "No description available.";
+    }
+}
+  function closeBorrowModal() {
+    document.getElementById("borrow-modal").style.display = "none";
+  }
+</script>
 
 {% endblock %}

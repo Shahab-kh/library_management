@@ -16,7 +16,6 @@ class BorrowRecord(models.Model):
     return_date = models.DateTimeField(null=True, blank=True)
 
     def clean(self):
-
         active_borrows = BorrowRecord.objects.filter(
             member = self.member,
             return_date__isnull = True
