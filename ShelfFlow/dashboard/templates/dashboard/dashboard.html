@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <h1 class="dashboard-title">Dashboard</h1>
+
+    <!-- Management -->
+
+    <section class="dashboard-management">
+
+        <div class="management-header">
+            <h2>Management</h2>
+
+            <div class="management-tabs">
+                <button
+                    type="button"
+                    class="management-tab active"
+                    data-target="books-management"
+                >
+                    Books
+                </button>
+
+                <button
+                    type="button"
+                    class="management-tab"
+                    data-target="members-management"
+                >
+                    Members
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Books Management -->
+
+        <div
+            id="books-management"
+            class="management-panel active"
+        >
+
+            <div class="management-panel-header">
+
+                <h3>Books Management</h3>
+
+                <button
+                    type="button"
+                    class="management-add-button"
+                >
+                    + Add Book
+                </button>
+
+            </div>
+
+            <div class="management-search-row">
+
+                <input
+                    type="text"
+                    placeholder="Search books..."
+                    class="management-search"
+                >
+
+            </div>
+
+
+            <div class="management-list">
+
+                {% for book in books %}
+
+                    <div class="management-item">
+
+                        <div>
+                            <strong>{{ book.title }}</strong>
+
+                            <span>
+                                Code: {{ book.book_code }}
+                            </span>
+                        </div>
+
+                        <div class="management-actions">
+
+                            <button type="button">
+                                Edit
+                            </button>
+
+                            <button type="button">
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>No books found.</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Members Management -->
+
+        <div
+            id="members-management"
+            class="management-panel"
+        >
+
+            <div class="management-panel-header">
+
+                <h3>Members Management</h3>
+
+                <button
+                    type="button"
+                    class="management-add-button"
+                >
+                    + Add Member
+                </button>
+
+            </div>
+
+            <div class="management-search-row">
+
+                <input
+                    type="text"
+                    placeholder="Search members..."
+                    class="management-search"
+                >
+
+            </div>
+
+
+            <div class="management-list">
+
+                {% for member in members %}
+
+                    <div class="management-item">
+
+                        <div>
+                            <strong>
+                                {{ member.full_name }}
+                            </strong>
+
+                            <span>
+                                Code: {{ member.member_code }}
+                            </span>
+                        </div>
+
+                        <div class="management-actions">
+
+                            <button type="button">
+                                Edit
+                            </button>
+
+                            <button type="button">
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>No members found.</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Members Overview -->
+
+    <section class="dashboard-members">
+
+        <div class="members-header">
+
+            <h2>Members</h2>
+
+            <input
+                type="text"
+                id="member-search"
+                placeholder="Search member..."
+                class="member-search"
+            >
+
+        </div>
+
+
+        <div
+            class="member-cards"
+            id="member-cards"
+        >
+
+            {% for member in members %}
+
+                <div
+                    class="member-card"
+                    data-name="{{ member.full_name|lower }}"
+                    data-code="{{ member.member_code }}"
+                >
+
+                    <span class="member-code">
+                        {{ member.member_code }}
+                    </span>
+
+                    <h3>
+                        {{ member.full_name }}
+                    </h3>
+
+                </div>
+
+            {% empty %}
+
+                <p>No members found.</p>
+
+            {% endfor %}
+
+        </div>
+
+        <p
+            id="no-members-found"
+            class="no-members-found"
+        >
+            No members found.
+        </p>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    const managementTabs =
+        document.querySelectorAll(".management-tab");
+
+    const managementPanels =
+        document.querySelectorAll(".management-panel");
+
+
+    managementTabs.forEach(function (tab) {
+
+        tab.addEventListener("click", function () {
+
+            const target =
+                document.getElementById(tab.dataset.target);
+
+
+            managementTabs.forEach(function (item) {
+                item.classList.remove("active");
+            });
+
+
+            managementPanels.forEach(function (panel) {
+                panel.classList.remove("active");
+            });
+
+
+            tab.classList.add("active");
+            target.classList.add("active");
+
+        });
+
+    });
+
+
+    const searchInput =
+        document.getElementById("member-search");
+
+    const memberCards =
+        document.querySelectorAll(".member-card");
+
+    const noMembersFound =
+        document.getElementById("no-members-found");
+
+
+    searchInput.addEventListener("input", function () {
+
+        const query =
+            searchInput.value.toLowerCase().trim();
+
+        let visibleMembers = 0;
+
+
+        memberCards.forEach(function (card) {
+
+            const name = card.dataset.name;
+            const code = card.dataset.code;
+
+
+            const matches =
+                name.includes(query) ||
+                code.includes(query);
+
+
+            if (matches) {
+
+                card.style.display = "block";
+                visibleMembers++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleMembers === 0) {
+
+            noMembersFound.style.display = "block";
+
+        } else {
+
+            noMembersFound.style.display = "none";
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

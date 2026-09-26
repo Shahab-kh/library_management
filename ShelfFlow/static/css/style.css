@@ -377,3 +377,345 @@ body {
     transform: translateX(0);
   }
 }
+/* =========================
+   Dashboard
+========================= */
+
+.dashboard {
+    width: 90%;
+    max-width: 1400px;
+    margin: 40px auto;
+}
+
+.dashboard-title {
+    color: #63474d;
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 35px;
+}
+
+/* =========================
+Management Panel
+========================= */
+.dashboard-management {
+  margin-bottom: 45px;
+}
+
+.management-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.management-header h2 {
+    margin: 0;
+    color: #003f32;
+    font-size: 24px;
+}
+
+
+/* Tabs */
+
+.management-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.management-tab {
+    padding: 8px 22px;
+
+    border: 1px solid #003f32;
+    border-radius: 7px;
+
+    background-color: transparent;
+    color: #003f32;
+
+    font-size: 15px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.management-tab:hover {
+    background-color: #d9d9d9;
+}
+
+.management-tab.active {
+    background-color: #003f32;
+    color: white;
+}
+
+
+/* Panel */
+
+.management-panel {
+    display: none;
+
+    background-color: #d9d9d9;
+
+    border: 1px solid #003f32;
+    border-radius: 10px;
+
+    padding: 20px;
+}
+
+.management-panel.active {
+    display: block;
+}
+
+
+/* Panel Header */
+
+.management-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.management-panel-header h3 {
+    margin: 0;
+
+    color: #003f32;
+    font-size: 20px;
+}
+
+
+/* Add Button */
+
+.management-add-button {
+    padding: 8px 15px;
+
+    border: none;
+    border-radius: 7px;
+
+    background-color: #003f32;
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.management-add-button:hover {
+    background-color: #63474d;
+}
+
+
+/* Search */
+
+.management-search-row {
+    margin-bottom: 15px;
+}
+
+.management-search {
+    width: 300px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #003f32;
+    border-radius: 7px;
+
+    background-color: #f5f1eb;
+    color: #003f32;
+
+    outline: none;
+}
+
+
+/* Management List */
+
+.management-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.management-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 15px;
+
+    background-color: #f5f1eb;
+
+    border: 1px solid #aaa;
+    border-radius: 7px;
+}
+
+.management-item > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.management-item strong {
+    color: #003f32;
+    font-size: 16px;
+}
+
+.management-item span {
+    color: #63474d;
+    font-size: 13px;
+}
+
+
+/* Actions */
+
+.management-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.management-actions button {
+    padding: 6px 12px;
+
+    border: 1px solid #003f32;
+    border-radius: 6px;
+
+    background-color: transparent;
+    color: #003f32;
+
+    cursor: pointer;
+}
+
+.management-actions button:hover {
+    background-color: #003f32;
+    color: white;
+}
+
+
+/* =========================
+   Members
+========================= */
+
+.dashboard-members {
+    margin-bottom: 50px;
+}
+
+.members-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.members-header h2 {
+    margin: 0;
+}
+
+.member-search {
+    width: 280px;
+
+    padding: 9px 13px;
+
+    border: 1px solid #003f32;
+    border-radius: 7px;
+
+    background-color: #f5f1eb;
+    color: #003f32;
+
+    font-size: 15px;
+    outline: none;
+}
+
+.member-search:focus {
+    border-color: #63474d;
+    box-shadow: 0 0 0 2px rgba(99, 71, 77, 0.15);
+}
+
+
+/* =========================
+   Member Cards
+========================= */
+
+.member-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.member-card {
+    background-color: #d9d9d9;
+
+    border: 1px solid #003f32;
+    border-radius: 9px;
+
+    padding: 15px;
+
+    min-height: 90px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(0, 63, 50, 0.15);
+}
+
+.member-code {
+    display: block;
+
+    color: #63474d;
+    font-size: 13px;
+
+    margin-bottom: 5px;
+}
+
+.member-card h3 {
+    color: #003f32;
+    font-size: 18px;
+
+    margin: 0;
+
+    overflow-wrap: anywhere;
+}
+
+.no-members-found {
+    display: none;
+
+    color: #63474d;
+    margin-top: 20px;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1000px) {
+
+    .member-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+
+    .management-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .member-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+
+    .dashboard {
+        width: 94%;
+    }
+
+    .member-cards {
+        grid-template-columns: 1fr;
+    }
+}
