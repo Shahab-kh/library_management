@@ -119,11 +119,39 @@
                 <button
                     type="button"
                     class="management-add-button"
+                    id="open-add-member-modal"
                 >
-                    + Add Member
-                </button>
+                + Add Member
+            </button>
 
             </div>
+            <div id="add-member-modal" class="form-modal">
+    <div class="form-modal-content">
+
+        <button class="modal-close" type="button" id="close-add-member-modal">
+            &times;
+        </button>
+
+        <h3>Add New Member</h3>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="{{ member_form.full_name.id_for_label }}">Full Name</label>
+            {{ member_form.full_name }}
+            {{ member_form.full_name.errors }}
+
+            <label for="{{ member_form.phone_number.id_for_label }}">Phone Number</label>
+            {{ member_form.phone_number }}
+            {{ member_form.phone_number.errors }}
+
+            <button type="submit" class="modal-borrow-button">
+                Save Member
+            </button>
+        </form>
+
+    </div>
+</div>
 
             <div class="management-search-row">
 
@@ -242,6 +270,28 @@
 
 <script>
 
+    const highlightMemberCode = "{{ highlight_member_code|default:''|escapejs }}";
+
+    if (highlightMemberCode){
+        const targetcard = 
+            document.querySelector(
+                '.member-card[data-code="' + highlightMemberCode + '"]'
+            );
+        if (targetcard){
+            targetcard.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+
+            targetcard.classList.add("member-highlight");
+
+            setTimeout(function(){
+                targetcard.classList.remove("member-highlight");
+
+            }, 3000);
+        }
+    }
+
     const managementTabs =
         document.querySelectorAll(".management-tab");
 
@@ -329,6 +379,28 @@
         }
 
     });
+    const openAddMemberModal =
+    document.getElementById("open-add-member-modal");
+
+const addMemberModal =
+    document.getElementById("add-member-modal");
+
+const closeAddMemberModal =
+    document.getElementById("close-add-member-modal");
+
+
+openAddMemberModal.addEventListener("click", function () {
+
+    addMemberModal.style.display = "flex";
+
+});
+
+
+closeAddMemberModal.addEventListener("click", function () {
+
+    addMemberModal.style.display = "none";
+
+});
 
 </script>
 

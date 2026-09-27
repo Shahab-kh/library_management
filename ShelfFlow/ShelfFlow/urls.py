@@ -23,7 +23,6 @@ from books.views import book_list
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', book_list, name="book_list"),
-    path('members/', include("members.urls")),
     path('dashboard/', include('dashboard.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
