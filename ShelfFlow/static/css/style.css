@@ -745,7 +745,9 @@ Management Panel
 .form-modal-content {
   position: relative;
 
-  width: 400px;
+  width: 450px;
+  max-height: 85vh;
+  overflow-y: auto;
 
   background-color: #d9d9d9;
 
@@ -767,20 +769,45 @@ Management Panel
 }
 
 .form-modal-content label {
+  display: block;
   margin-top: 12px;
   margin-bottom: 5px;
   color: #00271b;
 }
 
-.form-modal-content input[type="text"] {
+.form-modal-content input[type="text"],
+.form-modal-content input[type="number"],
+.form-modal-content textarea {
+  width: 100%;
+  box-sizing: border-box;
+
   padding: 8px 12px;
   border: 1px solid #00271b;
   border-radius: 5px;
+
   background-color: #fff;
   color: #00271b;
+
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.form-modal-content textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-modal-content input[type="file"] {
+  margin-top: 4px;
 }
 
 .form-modal-content .modal-borrow-button {
   margin-top: 20px;
   align-self: flex-end;
+}
+.no-book-found{
+  display: none;
+}
+.no-member-found{
+  display: none;
 }

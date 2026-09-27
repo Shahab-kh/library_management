@@ -49,11 +49,60 @@
                 <button
                     type="button"
                     class="management-add-button"
+                    id="open-add-book-modal"
                 >
                     + Add Book
                 </button>
 
             </div>
+            <div id="add-book-modal" class="form-modal">
+    <div class="form-modal-content">
+
+        <button class="modal-close" type="button" id="close-add-book-modal">
+            &times;
+        </button>
+
+        <h3>Add New Book</h3>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="book">
+
+            <label for="{{ book_form.title.id_for_label }}">Title</label>
+            {{ book_form.title }}
+            {{ book_form.title.errors }}
+
+            <label for="{{ book_form.author.id_for_label }}">Author</label>
+            {{ book_form.author }}
+            {{ book_form.author.errors }}
+            
+            <label for="{{ book_form.book_code.id_for_label }}">Book Code</label>
+            {{ book_form.book_code }}
+            {{ book_form.book_code.errors }}
+
+            <label for="{{ book_form.edition.id_for_label }}">Edition</label>
+            {{ book_form.edition }}
+            {{ book_form.edition.errors }}
+
+            <label for="{{ book_form.cover_image.id_for_label }}">Cover Image</label>
+            {{ book_form.cover_image }}
+            {{ book_form.cover_image.errors }}
+
+            <label for="{{ book_form.description.id_for_label }}">Description</label>
+            {{ book_form.description }}
+            {{ book_form.description.errors }}
+
+            <label for="{{ book_form.total_quantity.id_for_label }}">Total Quantity</label>
+            {{ book_form.total_quantity }}
+            {{ book_form.total_quantity.errors }}
+
+            <button type="submit" class="modal-borrow-button">
+                Save Book
+            </button>
+        </form>
+
+    </div>
+</div>
 
             <div class="management-search-row">
 
@@ -61,6 +110,7 @@
                     type="text"
                     placeholder="Search books..."
                     class="management-search"
+                    id="book-management-search"
                 >
 
             </div>
@@ -70,7 +120,7 @@
 
                 {% for book in books %}
 
-                    <div class="management-item">
+                    <div class="management-item" data-title="{{ book.title|lower }}" data-code="{{ book.book_code }}">
 
                         <div>
                             <strong>{{ book.title }}</strong>
@@ -101,7 +151,13 @@
                 {% endfor %}
 
             </div>
-
+            
+            <p
+            id="no-book-found"
+            class="no-book-found"
+        >
+            No book found.
+        </p>
         </div>
 
 
@@ -136,6 +192,7 @@
 
         <form method="post">
             {% csrf_token %}
+            <input type="hidden" name="form_type" value="member">
 
             <label for="{{ member_form.full_name.id_for_label }}">Full Name</label>
             {{ member_form.full_name }}
@@ -159,6 +216,7 @@
                     type="text"
                     placeholder="Search members..."
                     class="management-search"
+                    id="member-management-search"
                 >
 
             </div>
@@ -168,7 +226,7 @@
 
                 {% for member in members %}
 
-                    <div class="management-item">
+                    <div class="management-item" data-name="{{ member.full_name|lower }}" data-code="{{ member.member_code }}">
 
                         <div>
                             <strong>
@@ -201,6 +259,9 @@
                 {% endfor %}
 
             </div>
+            <p id="no-member-found" class="no-member-found">
+                No members found.
+            </p>
 
         </div>
 
@@ -401,6 +462,137 @@ closeAddMemberModal.addEventListener("click", function () {
     addMemberModal.style.display = "none";
 
 });
+    const openAddBookModal =
+    document.getElementById("open-add-book-modal");
+
+const addBookModal =
+    document.getElementById("add-book-modal");
+
+const closeAddBookModal =
+    document.getElementById("close-add-book-modal");
+
+
+openAddBookModal.addEventListener("click", function () {
+
+    addBookModal.style.display = "flex";
+
+});
+
+
+closeAddBookModal.addEventListener("click", function () {
+
+    addBookModal.style.display = "none";
+
+});
+    const searchbookmanagement =
+        document.getElementById("book-management-search");
+
+    const Books =
+        document.querySelectorAll("#books-management .management-item");
+
+    const noBookFound =
+        document.getElementById("no-book-found");
+
+
+    searchbookmanagement.addEventListener("input", function () {
+
+        const query =
+            searchbookmanagement.value.toLowerCase().trim();
+
+        let visibleBook = 0;
+
+
+        Books.forEach(function (card) {
+
+            const name = card.dataset.title;
+            const code = card.dataset.code;
+
+
+            const matches =
+                name.includes(query) ||
+                code.includes(query);
+
+
+            if (matches) {
+
+                card.style.display = "flex";
+                visibleBook++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleBook === 0) {
+
+            noBookFound.style.display = "block";
+
+        } else {
+
+            noBookFound.style.display = "none";
+
+        }
+
+    });
+    const searchmembermanagement =
+        document.getElementById("member-management-search");
+
+    const members =
+        document.querySelectorAll("#members-management .management-item");
+
+    const nomemberFound =
+        document.getElementById("no-member-found");
+
+
+    searchmembermanagement.addEventListener("input", function () {
+
+        const query =
+            searchmembermanagement.value.toLowerCase().trim();
+
+        let visiblemember = 0;
+
+
+        members.forEach(function (card) {
+
+            const name = card.dataset.name;
+            const code = card.dataset.code;
+
+
+            const matches =
+                name.includes(query) ||
+                code.includes(query);
+
+
+            if (matches) {
+
+                card.style.display = "flex";
+                visiblemember++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visiblemember === 0) {
+
+            nomemberFound.style.display = "block";
+
+        } else {
+
+            nomemberFound.style.display = "none";
+
+        }
+
+    });
+
 
 </script>
 
