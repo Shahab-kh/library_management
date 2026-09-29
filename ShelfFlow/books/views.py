@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib import messages
-from django.core.exceptions import ValidationError
 from .models import Book
 from members.models import Member
 from borrowing.forms import BorrowForm
@@ -57,5 +56,11 @@ def book_list(request):
         "borrow_form": borrow_form,
     }
 )
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    book.delete()
 
+    messages.success(request,f"Book {book.title} deleted.")
+
+    return redirect('dashboard')
 

@@ -135,10 +135,10 @@
                             <button type="button">
                                 Edit
                             </button>
-
-                            <button type="button">
-                                Delete
-                            </button>
+                        <form method="post" action="{% url 'delete_book' book.pk %}" class="delete-form" data-name="{{ book.title }}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
 
                         </div>
 
@@ -243,10 +243,13 @@
                             <button type="button">
                                 Edit
                             </button>
-
-                            <button type="button">
-                                Delete
-                            </button>
+                            <form method="post" action="{% url 'delete_member' member.pk %}"
+                            class="delete-form" data-name="{{ member.full_name }}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    Delete
+                                </button>
+                            </form>
 
                         </div>
 
@@ -266,7 +269,17 @@
         </div>
 
     </section>
+    <div id="confirm-delete-modal" class="form-modal">
+    <div class="form-modal-content">
+        <h3>Confirm Delete</h3>
+        <p id="confirm-delete-message"></p>
 
+        <div class="confirm-delete-actions">
+            <button type="button" id="confirm-delete-cancel" class="modal-cancel-button">Cancel</button>
+            <button type="button" id="confirm-delete-yes" class="modal-danger-button">Delete</button>
+        </div>
+    </div>
+</div>
 
     <!-- Members Overview -->
 
@@ -592,6 +605,41 @@ closeAddBookModal.addEventListener("click", function () {
         }
 
     });
+    let pendingDeleteForm = null;
+
+document.querySelectorAll(".delete-form").forEach(function (form) {
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        pendingDeleteForm = form;
+
+        document.getElementById("confirm-delete-message").textContent =
+            "Delete \"" + form.dataset.name + "\"? This cannot be undone.";
+
+        document.getElementById("confirm-delete-modal").style.display = "flex";
+
+    });
+
+});
+
+
+document.getElementById("confirm-delete-yes").addEventListener("click", function () {
+
+    if (pendingDeleteForm) {
+        pendingDeleteForm.submit();
+    }
+
+});
+
+
+document.getElementById("confirm-delete-cancel").addEventListener("click", function () {
+
+    document.getElementById("confirm-delete-modal").style.display = "none";
+    pendingDeleteForm = null;
+
+});
 
 
 </script>
