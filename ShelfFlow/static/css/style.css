@@ -846,3 +846,46 @@ Management Panel
 .modal-danger-button:hover {
   background-color: #6e2424;
 }
+.edit-page-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.management-actions .edit-link {
+  padding: 6px 12px;
+  border: 1px solid #003f32;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #003f32;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: inherit;
+}
+
+.management-actions .edit-link:hover {
+  background-color: #003f32;
+  color: white;
+}
+.edit-page-wrapper .form-modal-content {
+  max-height: none;
+  overflow-y: visible;
+}
+.edit-book-card {
+  width: 650px;
+}
+
+.form-modal-content form.edit-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="edit-page-wrapper">
+    <div class="form-modal-content edit-book-card">
+        <h3>Edit Book</h3>
+
+        <form method="post" enctype="multipart/form-data" class="edit-fields-grid">
+            {% csrf_token %}
+
+            <div class="form-field full-width">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.author.id_for_label }}">Author</label>
+                {{ form.author }}
+                {{ form.author.errors }}
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.book_code.id_for_label }}">Book Code</label>
+                {{ form.book_code }}
+                {{ form.book_code.errors }}
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.edition.id_for_label }}">Edition</label>
+                {{ form.edition }}
+                {{ form.edition.errors }}
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.total_quantity.id_for_label }}">Total Quantity</label>
+                {{ form.total_quantity }}
+                {{ form.total_quantity.errors }}
+            </div>
+
+            <div class="form-field full-width">
+                <label for="{{ form.cover_image.id_for_label }}">Cover Image</label>
+                {{ form.cover_image }}
+                {{ form.cover_image.errors }}
+            </div>
+
+            <div class="form-field full-width">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {{ form.description.errors }}
+            </div>
+
+            <button type="submit" class="modal-borrow-button full-width">
+                Save Changes
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

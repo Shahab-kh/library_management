@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import Book
 from members.models import Member
 from borrowing.forms import BorrowForm
+from .forms import BookForm
 from borrowing.models import BorrowRecord
 
 def book_list(request):
@@ -64,3 +65,19 @@ def delete_book(request, pk):
 
     return redirect('dashboard')
 
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES, instance= book)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Book '{book.title}' updated successfully.")
+            return redirect('dashboard')
+            
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, "books/edit_book.html", {'form': form, 'book': book})
+    
