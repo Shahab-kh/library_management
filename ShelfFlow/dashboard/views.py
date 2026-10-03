@@ -36,7 +36,7 @@ def dashboard(request):
     else:
         highlight_member_code = request.GET.get('new_member')
     
-    members = Member.objects.all()
+    members = Member.objects.all().prefetch_related('borrowrecord_set')
     books = Book.objects.all()
 
     return render(request,

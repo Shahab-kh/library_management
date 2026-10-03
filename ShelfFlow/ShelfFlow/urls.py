@@ -25,6 +25,7 @@ urlpatterns = [
     path('', book_list, name="book_list"),
     path('dashboard/', include('dashboard.urls')),
     path('member/', include('members.urls')),
-    path('book/', include('books.urls'))
+    path('book/', include('books.urls')),
+    path('borrowing/', include('borrowing.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

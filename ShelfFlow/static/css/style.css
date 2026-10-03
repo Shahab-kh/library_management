@@ -889,3 +889,81 @@ Management Panel
 .full-width {
   grid-column: 1 / -1;
 }
+.member-borrows-content {
+  width: 600px;
+}
+.borrow-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 15px 0;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.borrow-tab {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: #63474d;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.borrow-tab:hover {
+  background-color: #eee;
+}
+
+.borrow-tab.active {
+  background-color: #003f32;
+  color: white;
+}
+
+.borrow-status-borrowed { color: #003f32; font-weight: bold; }
+.borrow-status-overdue { color: #8c2f2f; font-weight: bold; }
+.borrow-status-returned { color: #63474d; }
+.btn-outline {
+  padding: 6px 12px;
+  border: 1px solid #003f32;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #003f32;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.btn-outline:hover {
+  background-color: #003f32;
+  color: white;
+}
+
+#member-borrows-list {
+  height: 300px;
+  overflow-y: auto;
+}
+.borrow-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 15px;
+
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.borrow-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.borrow-status {
+  width: 90px;
+  text-align: center;
+}
+
+.borrow-row-actions form button {
+  width: 90px;
+  margin-left: 100px;
+
+}

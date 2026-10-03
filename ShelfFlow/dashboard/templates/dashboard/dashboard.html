@@ -305,6 +305,7 @@
 
                 <div
                     class="member-card"
+                    data-id="{{ member.pk }}"
                     data-name="{{ member.full_name|lower }}"
                     data-code="{{ member.member_code }}"
                 >
@@ -316,6 +317,25 @@
                     <h3>
                         {{ member.full_name }}
                     </h3>
+                        <template class="member-borrows-template" data-member-id="{{ member.pk }}">
+            {% for record in member.borrowrecord_set.all %}
+                <div class="borrow-row" data-status="{{ record.status|lower }}">
+    <span>{{ record.book.title }}</span>
+
+    <div class="borrow-row-actions">
+        <span class="borrow-status borrow-status-{{ record.status|lower }}">{{ record.status }}</span>
+
+        {% if record.status != "Returned" %}
+            <form method="post" action="{% url 'return_book' record.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-outline">Return</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+            {% endfor %}
+            <p class="no-borrow-message">No books in this category.</p>
+        </template>
 
                 </div>
 
@@ -335,11 +355,95 @@
         </p>
 
     </section>
-
+<div id="member-borrows-modal" class="form-modal">
+    <div class="form-modal-content member-borrows-content">
+        <button class="modal-close" type="button" id="close-member-borrows-modal">&times;</button>
+        <h3 id="member-borrows-title">Borrowed Books</h3>
+        <div class="borrow-tabs">
+    <button type="button" class="borrow-tab" data-status="borrowed">Active</button>
+    <button type="button" class="borrow-tab" data-status="overdue">Overdue</button>
+    <button type="button" class="borrow-tab" data-status="returned">History</button>
+</div>
+        <div id="member-borrows-list"></div>
+    </div>
+</div>
 </div>
 
 
 <script>
+   function filterBorrowRows(status) {
+
+    let visibleCount = 0;
+
+    document.querySelectorAll("#member-borrows-list .borrow-row").forEach(function (row) {
+
+        const matches = row.dataset.status === status;
+        row.style.display = matches ? "grid" : "none";
+
+        if (matches) {
+            visibleCount++;
+        }
+
+    });
+
+    const noBorrowMessage = document.querySelector("#member-borrows-list .no-borrow-message");
+
+    if (noBorrowMessage) {
+        noBorrowMessage.style.display = (visibleCount === 0) ? "block" : "none";
+    }
+
+}
+
+
+document.querySelectorAll(".member-card").forEach(function (card) {
+
+    card.style.cursor = "pointer";
+
+    card.addEventListener("click", function () {
+
+        const memberId = card.dataset.id;
+
+        const template = document.querySelector(
+            '.member-borrows-template[data-member-id="' + memberId + '"]'
+        );
+
+        document.getElementById("member-borrows-list").innerHTML = template.innerHTML;
+
+        document.querySelectorAll(".borrow-tab").forEach(function (tab) {
+            tab.classList.remove("active");
+        });
+
+        document.querySelector('.borrow-tab[data-status="borrowed"]').classList.add("active");
+        filterBorrowRows("borrowed");
+
+        document.getElementById("member-borrows-modal").style.display = "flex";
+
+    });
+
+});
+
+
+document.querySelectorAll(".borrow-tab").forEach(function (tab) {
+
+    tab.addEventListener("click", function () {
+
+        document.querySelectorAll(".borrow-tab").forEach(function (t) {
+            t.classList.remove("active");
+        });
+
+        tab.classList.add("active");
+        filterBorrowRows(tab.dataset.status);
+
+    });
+
+});
+
+
+document.getElementById("close-member-borrows-modal")
+    .addEventListener("click", function () {
+        document.getElementById("member-borrows-modal").style.display = "none";
+    });
+
 
     const highlightMemberCode = "{{ highlight_member_code|default:''|escapejs }}";
 
