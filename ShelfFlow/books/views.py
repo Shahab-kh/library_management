@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+from django.core.exceptions import ValidationError
 from .models import Book
 from members.models import Member
 from borrowing.forms import BorrowForm
@@ -57,6 +59,7 @@ def book_list(request):
         "borrow_form": borrow_form,
     }
 )
+@require_POST
 def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
@@ -69,15 +72,18 @@ def edit_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
 
     if request.method == "POST":
-        form = BookForm(request.POST, request.FILES, instance= book)
+        form = BookForm(request.POST, request.FILES, instance=book)
 
         if form.is_valid():
-            form.save()
-            messages.success(request, f"Book '{book.title}' updated successfully.")
-            return redirect('dashboard')
-            
+            try:
+                form.save()
+            except ValidationError as e:
+                form.add_error('total_quantity', e.message)
+            else:
+                messages.success(request, f"Book '{book.title}' updated successfully.")
+                return redirect('dashboard')
+
     else:
         form = BookForm(instance=book)
 
     return render(request, "books/edit_book.html", {'form': form, 'book': book})
-    
