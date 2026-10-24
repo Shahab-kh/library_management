@@ -57,9 +57,27 @@
           id="modal-book-id"
         > 
         <div class="member-select">
-            {{ borrow_form.member.label_tag }}
-            {{ borrow_form.member }}
-        </div>
+    <label for="member-search-input">Member</label>
+
+    <div class="member-search-box">
+        <input type="text" id="member-search-input"
+               placeholder="Search by name or code..." autocomplete="off">
+        <input type="hidden" name="member" id="member-id-input">
+
+        <ul id="member-search-results" class="member-search-results">
+            {% for member in members %}
+                <li data-id="{{ member.pk }}"
+                    data-search="{{ member.full_name|lower }} {{ member.member_code }}"
+                    data-label="{{ member.full_name }} ({{ member.member_code }})">
+                    {{ member.full_name }} <span>{{ member.member_code }}</span>
+                </li>
+            {% endfor %}
+            <li class="member-no-results">No members found.</li>
+        </ul>
+    </div>
+
+    <p id="member-error" class="member-error">Please choose a member from the list.</p>
+</div>
 
         <div class="modal-book-description">
             <p id="modal-book-description"></p>
@@ -82,6 +100,7 @@
 </div>
 <script>
   function openBorrowModal(id, imageUrl, title, description) {
+    resetMemberSearch();
     document.getElementById("borrow-modal").style.display = "flex";
 
     document.getElementById("modal-book-id").value = id;
@@ -103,6 +122,93 @@
   function closeBorrowModal() {
     document.getElementById("borrow-modal").style.display = "none";
   }
+  const memberInput = document.getElementById("member-search-input");
+const memberIdInput = document.getElementById("member-id-input");
+const memberResults = document.getElementById("member-search-results");
+const memberError = document.getElementById("member-error");
+const memberItems = memberResults.querySelectorAll("li[data-id]");
+const memberNoResults = memberResults.querySelector(".member-no-results");
+
+
+function filterMembers() {
+
+    const query = memberInput.value.toLowerCase().trim();
+
+    let visible = 0;
+
+    memberItems.forEach(function (item) {
+
+        const matches = item.dataset.search.includes(query);
+
+        item.style.display = matches ? "flex" : "none";
+
+        if (matches) {
+            visible++;
+        }
+
+    });
+
+    memberNoResults.style.display = (visible === 0) ? "flex" : "none";
+
+}
+
+
+function resetMemberSearch() {
+
+    memberInput.value = "";
+    memberIdInput.value = "";
+    memberResults.style.display = "none";
+    memberError.style.display = "none";
+
+}
+
+
+memberInput.addEventListener("focus", function () {
+    filterMembers();
+    memberResults.style.display = "block";
+});
+
+
+memberInput.addEventListener("input", function () {
+    memberIdInput.value = "";
+    memberError.style.display = "none";
+    filterMembers();
+    memberResults.style.display = "block";
+});
+
+
+memberItems.forEach(function (item) {
+
+    item.addEventListener("click", function () {
+
+        memberIdInput.value = item.dataset.id;
+        memberInput.value = item.dataset.label;
+
+        memberResults.style.display = "none";
+        memberError.style.display = "none";
+
+    });
+
+});
+
+
+document.addEventListener("click", function (e) {
+
+    if (!e.target.closest(".member-search-box")) {
+        memberResults.style.display = "none";
+    }
+
+});
+
+
+document.querySelector(".borrow-form").addEventListener("submit", function (e) {
+
+    if (!memberIdInput.value) {
+        e.preventDefault();
+        memberError.style.display = "block";
+    }
+
+});
 </script>
 
 {% endblock %}

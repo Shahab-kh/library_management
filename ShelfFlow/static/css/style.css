@@ -237,14 +237,89 @@ body {
 }
 .member-select {
   display: flex;
-
-  align-items: center;
-
-  gap: 8px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
 
   color: #00271b;
-
   font-size: 18px;
+}
+.member-search-box {
+  position: relative;
+}
+
+.member-search-box input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 8px 12px;
+
+  border: 1px solid #00271b;
+  border-radius: 5px;
+
+  background-color: #fff;
+  color: #00271b;
+
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.member-search-results {
+  display: none;
+
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  max-height: 160px;
+  overflow-y: auto;
+
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+
+  background-color: #fff;
+  border: 1px solid #00271b;
+  border-radius: 5px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.member-search-results li {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px 12px;
+
+  font-size: 14px;
+  color: #00271b;
+
+  cursor: pointer;
+}
+
+.member-search-results li:hover {
+  background-color: #d9d9d9;
+}
+
+.member-search-results li span {
+  color: #63474d;
+}
+
+.member-search-results .member-no-results {
+  cursor: default;
+  color: #63474d;
+}
+
+.member-search-results .member-no-results:hover {
+  background-color: transparent;
+}
+
+.member-error {
+  display: none;
+  margin: 0;
+  font-size: 13px;
+  color: #8c2f2f;
 }
 
 .member-select select {
