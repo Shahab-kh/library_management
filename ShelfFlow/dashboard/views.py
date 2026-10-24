@@ -9,6 +9,7 @@ def dashboard(request):
     book_form = BookForm()
     member_form = MemberForm()
     highlight_member_code = None
+    open_modal = None
 
     if request.method == "POST":
         if request.POST.get("form_type") == "member":
@@ -21,8 +22,10 @@ def dashboard(request):
                     request,
                     f"Member '{new_member.full_name}' added successfully"
                 )
-                return redirect(f"{request.path}?new_member={new_member.member_code}")
 
+                return redirect(f"{request.path}?new_member={new_member.member_code}")
+            open_modal = "member"
+        
         elif request.POST.get("form_type") == "book":
             book_form = BookForm(request.POST, request.FILES)
 
@@ -33,6 +36,8 @@ def dashboard(request):
                     f"Book '{new_book.title}' added successfully."
                     )
                 return redirect(request.path)
+                
+            open_modal = "book"
     else:
         highlight_member_code = request.GET.get('new_member')
     
@@ -46,5 +51,6 @@ def dashboard(request):
                      'member_form': member_form,
                      'highlight_member_code': highlight_member_code,
                      'book_form': book_form,
+                     'open_modal': open_modal,
                      },
                      )

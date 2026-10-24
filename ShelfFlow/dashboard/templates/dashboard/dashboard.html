@@ -584,6 +584,16 @@ const addBookModal =
 
 const closeAddBookModal =
     document.getElementById("close-add-book-modal");
+    
+const openModalName = "{{ open_modal|default:''|escapejs }}";
+
+if (openModalName === "book") {
+    addBookModal.style.display = "flex";
+}
+
+if (openModalName === "member") {
+    addMemberModal.style.display = "flex";
+}
 
 
 openAddBookModal.addEventListener("click", function () {
